@@ -31,9 +31,10 @@ function generateScoreTrackerHTML() {
     </section>`
 }
 
+// Maybe not necessary
 function updateQuizInfo(){
     // increment the question number
-    questionNumber = questionNumber++;
+    // questionNumber = questionNumber++;
     // increment th score
     // if the answer was correct, add 1, else do nothing
 }
@@ -61,7 +62,7 @@ function generateQuestionHTML() {
 
     let optionsText = ''
     for (i=0 ; i<options.length; i++){
-        optionsText += `<input type="radio" name="option">
+        optionsText += `<input type="radio" name="option" value="${options[i]}">
         <label for="option">${options[i]}</label><br/>`
     }
 
@@ -81,25 +82,47 @@ function renderCurrentQuestion() {
 }
 
 // Evaluate answers and provides feedback
-function handleAnswerSubmit(){
-    // $('.submit-button').on('submit', function(e) {
-    //     event.preventDefault();
-    // capture answer
-        
+function generateFeedback(){
+        // capture answer
         let selectedOption = $("input[name=option]:checked").val();
+        // pull the answer to display as feedback
+        let dispAnswer = STORE[questionNumber].displayAnswer;
+
         if (!selectedOption) {
             alert("Please select an answer. It's okay to guess!")
         }
-    // compare answer to correct answer 
-        let questionObj = STORE[questionNumber]
-    // create correct/incorrect variable
-    // generate HTML with info: correct, detailed answer, source and next button
-    // });
+        // compare answer to correct answer 
+         if (selectedOption === STORE[questionNumber].answer){
+            console.log("correct!");
+            // Add a point to score
+            score = ++score ;
+            return `<fieldset>
+                        <legend><i class="fa fa-check"></i><span>Correct!</span></legend>
+
+                        <p>${dispAnswer}</p>
+
+                    </fieldset>
+                         <button type="submit" class="next-button button">Next</button>` ;
+        }
+        else {
+            return `<fieldset>
+                        <legend><i class="fa fa-times"></i><span>Sorry, that's incorrect.</span></legend>
+
+                        <p>${dispAnswer}</p>
+
+                    </fieldset>
+                         <button type="submit" class="next-button button">Next</button>` ;
+        }
+        
 }
 
-function handleNextClick() {
-    
+function renderFeedback(){
+    // generate HTML with info: correct, detailed answer, source and next button
+    $('.quiz-form').html(generateFeedback());
+    // Increment question
+    ++questionNumber;
 }
+
     
 // cycle begins: render current question, get submit input (their answer), grade their answer, render feedback, update score and current question, next click renders next question
     
@@ -115,19 +138,41 @@ function handleStart() {
     })
 }
 
-function handleQuiz() {
-    // Add event delegation!
-    $('.submit-button').on('submit', function(e) {
+function handleQuizFeedback() {
+    // Listen for click on submit with event delegation!
+    $('main').on('click', '.submit-button', function(e) {
         e.preventDefault();
 
-        debugger;
-        handleAnswerSubmit();
-        //evaluate answer
-        // render feedback
-        // update questions
-        // render current feedback with 'next' button
+        renderFeedback()
     });
+}
+
+function handleNextQuestion() {
+    // Listen for click on submit with event delegation!
+    $('main').on('click', '.next-button', function(e) {
+        e.preventDefault();
+        // Remove feedback HTML
+        // renderScoreTracker()
+        // Check question number if not done the continue
+        // renderQuizContainer()
+        // renderCurrentQuestion()        
+    // })
+}
+
+function handleSummary() {
+
+        // Remove feedback HTML
+        // renderScoreTracker()
+        // renderQuizContainer()
+        // renderCurrentQuestion()        
+    // });
+}
+
+function restartQuiz() {
+    // listen for click on restart button
+        //Can I just refresh the page?
 }
     
 handleStart()
-handleQuiz() 
+handleQuizFeedback() 
+handleNextQuestion()
