@@ -15,7 +15,7 @@ function generateScoreTrackerHTML() {
     return `<section class="score-tracker">
     <ul>
         <li class="increment">Question:
-        <span class="question-number">${questionNumber}</span>/${STORE.length}</li>
+        <span class="question-number">${questionNumber+1}</span>/${STORE.length}</li>
         <li class="increment">Score:
         <span class="current-score">${score}</span>
         </li>
@@ -64,42 +64,17 @@ function renderCurrentQuestion() {
     $('.quiz-container').html(generateQuestionHTML()) // the stuff inside the form
 }
 
-// Evaluate answers and provides feedback
-// function generateFeedback(selectedOption){
-//         // pull the answer to display as feedback
-//         let dispAnswer = STORE[questionNumber].displayAnswer;
-//         console.log(selectedOption)
-//         // debugger;
-//         if (selectedOption === undefined || selectedOption === null) {
-//             alert("Please select an answer. It's okay to guess!")
-//             return;  
-//         }
-//         // compare answer to correct answer 
-//         let msg = "Sorry, that's incorrect";
-//         //set this to negative
-//         let icon = `<i class="fa fa-times">`
-        
-//         if (selectedOption === STORE[questionNumber].answer){
-//             console.log("correct!");
-//             // Add a point to score
-//             score = ++score ;
-//             msg = "That's correct!";
-//             // update icon to positive
-//             icon = `<i class="fa fa-check">`
-//         }
-//         return `<form class='next-form'><fieldset>
-//                     <legend>${icon} ${msg}</legend>
-
-//                     <p>${dispAnswer}</p>
-
-//                 </fieldset>
-//                       <button type="submit" class="next-button button">Next</button>
-//                 </form>` ;
-// }
-
 function updateQuizInfo() {
-  $('.question-number').text(questionNumber)
-  $('.current-score').text(score)
+    updateQuestionNumber();
+    updateScoreInfo(); 
+}
+
+function updateQuestionNumber() {
+    $('.question-number').text(questionNumber+1);    
+}
+
+function updateScoreInfo() {
+    $('.current-score').text(score);
 }
 
 
@@ -116,15 +91,14 @@ function processFeedback(selectedOption){
     // compare answer to correct answer 
     let msg = "Sorry, that's incorrect";
     //set this to negative
-    let icon = `<i class="fa fa-times">`
+    let icon = `<i class="fa fa-times"></i>`
     
     if (selectedOption === STORE[questionNumber].answer){
-        console.log("correct!");
-        // Add a point to score
+         // Add a point to score
         score = ++score ;
         msg = "That's correct!";
         // update icon to positive
-        icon = `<i class="fa fa-check">`
+        icon = '<i class="fa fa-check"></i>'
     }
     
     // render the feedback
@@ -138,8 +112,9 @@ function processFeedback(selectedOption){
                         </form>` ;
 
     // update the question number only after next is clicked - this is moved to after they click next, not after they submit answer
+    debugger;
     ++questionNumber;
-    updateQuizInfo()
+    updateScoreInfo();
     $('.quiz-container').html(feedbackHTML);
 }
 
@@ -160,36 +135,19 @@ function generateSummary(){
     
 function renderSummary(){
     // generate HTML with info: correct, detailed answer, source and next button
-    $('.quiz-form').html(generateSummary());
+    $('.quiz-container').html(generateSummary());
 }
 
 // cycle begins: render current question, get submit input (their answer), grade their answer, render feedback, update score and current question, next click renders next question
     
-// handleStart
-// render quiz info and quiz container
-function handleStart() {
-    $('.start-button').on('click', function(e) {
-        e.preventDefault()
-        
-        renderScoreTracker()
-        renderQuizContainer()
-        renderCurrentQuestion()
-        handleAnswerSubmit();
-        handleNextQuestion();
-        restartQuiz(); 
-    })
-}
 
-// handling the form submission
+// Handle the form submission and grading
 function handleAnswerSubmit() {
     // Listen for click on submit with event delegation!
     $('.quiz-container').on('submit', '.quiz-form', function(e) {
         e.preventDefault();
-        console.log('here')
         // capture the input answer
-        console.log($(e.currentTarget))
         const selectedOption = $(e.currentTarget).find("input[name=option]:checked").val();
-        console.log(selectedOption)
         // send that answer to the grading function or next etc.
         processFeedback(selectedOption)
     });
@@ -199,7 +157,7 @@ function handleNextQuestion() {
     // Listen for click on submit with event delegation!
     $('.quiz-container').on('submit', '.next-form', function(e) {
         e.preventDefault();
-        // Remove feedback HTML
+        updateQuestionNumber()
         // Check question number if not done the continue
         if (questionNumber<STORE.length){
             renderCurrentQuestion()  
@@ -220,10 +178,22 @@ function restartQuiz() {
         //Start in the quiz
         updateQuizInfo();
         renderCurrentQuestion()
-        //Alternatively, refresh the page?
     });
 }
     
+// Run almost everything
+function handleStart() {
+    $('.start-button').on('click', function(e) {
+        e.preventDefault()
+        
+        renderScoreTracker()
+        renderQuizContainer()
+        renderCurrentQuestion()
+        handleAnswerSubmit();
+        handleNextQuestion();
+        restartQuiz(); 
+    })
+}
 
 $(handleStart())
 
