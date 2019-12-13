@@ -1,14 +1,6 @@
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//
-//      FUNCTIONS
-//
-//
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 //Global variables to store the quiz score and question number information
 let score = 0;
-let questionNumber = 9;
+let questionNumber = 0;
 
 //////////////// Functions //////////////
 
@@ -23,7 +15,7 @@ function generateScoreTrackerHTML() {
     return `<section class="score-tracker">
     <ul>
         <li class="increment">Question:
-        <span class="question-number">${questionNumber+1}</span>/${STORE.length}</li>
+        <span class="question-number">${questionNumber}</span>/${STORE.length}</li>
         <li class="increment">Score:
         <span class="current-score">${score}</span>
         </li>
@@ -33,8 +25,6 @@ function generateScoreTrackerHTML() {
 
 function generateQuizContainerHTML() {
     return `<section class='quiz-container'>
-                <form class='quiz-form'>
-                </form>
             </section>`
 }
 
@@ -59,60 +49,98 @@ function generateQuestionHTML() {
     }
 
     // Return HTML with question and options
-    return `<fieldset>
+    return `<form class='quiz-form'><fieldset>
                 <legend>${question}</legend>
 
                 ${optionsText}
 
             </fieldset>
-            <button type="submit" class="submit-button button">Submit</button>` 
+            <button type="submit" class="submit-button button">Submit</button>
+            </form>` 
 }
 
 // Calls generateQuizContainerHTML to just renders the question
 function renderCurrentQuestion() {
-    $('.quiz-form').html(generateQuestionHTML()) // the stuff inside the form
+    $('.quiz-container').html(generateQuestionHTML()) // the stuff inside the form
 }
 
 // Evaluate answers and provides feedback
-function generateFeedback(){
-        // capture answer
-        let selectedOption = $("input[name=option]:checked").val();
-        // pull the answer to display as feedback
-        let dispAnswer = STORE[questionNumber].displayAnswer;
-
-        if (!selectedOption) {
-            alert("Please select an answer. It's okay to guess!")
-        }
-        // compare answer to correct answer 
-         if (selectedOption === STORE[questionNumber].answer){
-            console.log("correct!");
-            // Add a point to score
-            score = ++score ;
-            return `<fieldset>
-                        <legend><i class="fa fa-check"></i><span>  Correct!</span></legend>
-
-                        <p>${dispAnswer}</p>
-
-                    </fieldset>
-                         <button type="submit" class="next-button button">Next</button>` ;
-        }
-        else {
-            return `<fieldset>
-                        <legend><i class="fa fa-times"></i><span>  Sorry, that's incorrect.</span></legend>
-
-                        <p>${dispAnswer}</p>
-
-                    </fieldset>
-                         <button type="submit" class="next-button button">Next</button>` ;
-        }
+// function generateFeedback(selectedOption){
+//         // pull the answer to display as feedback
+//         let dispAnswer = STORE[questionNumber].displayAnswer;
+//         console.log(selectedOption)
+//         // debugger;
+//         if (selectedOption === undefined || selectedOption === null) {
+//             alert("Please select an answer. It's okay to guess!")
+//             return;  
+//         }
+//         // compare answer to correct answer 
+//         let msg = "Sorry, that's incorrect";
+//         //set this to negative
+//         let icon = `<i class="fa fa-times">`
         
+//         if (selectedOption === STORE[questionNumber].answer){
+//             console.log("correct!");
+//             // Add a point to score
+//             score = ++score ;
+//             msg = "That's correct!";
+//             // update icon to positive
+//             icon = `<i class="fa fa-check">`
+//         }
+//         return `<form class='next-form'><fieldset>
+//                     <legend>${icon} ${msg}</legend>
+
+//                     <p>${dispAnswer}</p>
+
+//                 </fieldset>
+//                       <button type="submit" class="next-button button">Next</button>
+//                 </form>` ;
+// }
+
+function updateQuizInfo() {
+  $('.question-number').text(questionNumber)
+  $('.current-score').text(score)
 }
 
-function renderFeedback(){
-    // generate HTML with info: correct, detailed answer, source and next button
-    $('.quiz-form').html(generateFeedback());
-    // Increment question
+
+function processFeedback(selectedOption){
+    // grade the answer
+    // pull the answer to display as feedback
+    let dispAnswer = STORE[questionNumber].displayAnswer;
+    console.log(selectedOption)
+    // debugger;
+    if (selectedOption === undefined || selectedOption === null) {
+        alert("Please select an answer. It's okay to guess!")
+        return;  
+    }
+    // compare answer to correct answer 
+    let msg = "Sorry, that's incorrect";
+    //set this to negative
+    let icon = `<i class="fa fa-times">`
+    
+    if (selectedOption === STORE[questionNumber].answer){
+        console.log("correct!");
+        // Add a point to score
+        score = ++score ;
+        msg = "That's correct!";
+        // update icon to positive
+        icon = `<i class="fa fa-check">`
+    }
+    
+    // render the feedback
+    let feedbackHTML = `<form class='next-form'><fieldset>
+                            <legend>${icon} ${msg}</legend>
+
+                            <p>${dispAnswer}</p>
+
+                        </fieldset>
+                            <button type="submit" class="next-button button">Next</button>
+                        </form>` ;
+
+    // update the question number only after next is clicked - this is moved to after they click next, not after they submit answer
     ++questionNumber;
+    updateQuizInfo()
+    $('.quiz-container').html(feedbackHTML);
 }
 
 // Runs when you get to the end of the list
@@ -146,30 +174,37 @@ function handleStart() {
         renderScoreTracker()
         renderQuizContainer()
         renderCurrentQuestion()
+        handleAnswerSubmit();
+        handleNextQuestion();
+        restartQuiz(); 
     })
 }
 
-function handleQuizFeedback() {
+// handling the form submission
+function handleAnswerSubmit() {
     // Listen for click on submit with event delegation!
-    $('main').on('click', '.submit-button', function(e) {
+    $('.quiz-container').on('submit', '.quiz-form', function(e) {
         e.preventDefault();
-        renderFeedback()
+        console.log('here')
+        // capture the input answer
+        console.log($(e.currentTarget))
+        const selectedOption = $(e.currentTarget).find("input[name=option]:checked").val();
+        console.log(selectedOption)
+        // send that answer to the grading function or next etc.
+        processFeedback(selectedOption)
     });
 }
 
 function handleNextQuestion() {
     // Listen for click on submit with event delegation!
-    $('main').on('click', '.next-button', function(e) {
+    $('.quiz-container').on('submit', '.next-form', function(e) {
         e.preventDefault();
         // Remove feedback HTML
-        renderScoreTracker()
         // Check question number if not done the continue
         if (questionNumber<STORE.length){
-            renderQuizContainer()
             renderCurrentQuestion()  
         }
         else {
-            renderQuizContainer()
             renderSummary();
         }
     });
@@ -183,23 +218,12 @@ function restartQuiz() {
         questionNumber = 0;
         score = 0;
         //Start in the quiz
-        renderScoreTracker()
-        renderQuizContainer()
+        updateQuizInfo();
         renderCurrentQuestion()
         //Alternatively, refresh the page?
     });
 }
     
-function restartQuizAlt() {
-    // listen for click on restart button
-    $('main').on('click', '.restart-button', function(e) {
-        //Alternatively, refresh the page?
-        location.reload(true);
-    });
-}
 
-handleStart();
-handleQuizFeedback();
-handleNextQuestion();
-restartQuiz(); 
+$(handleStart())
 
