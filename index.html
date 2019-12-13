@@ -8,42 +8,29 @@
     <title>Forest Fact Quiz</title>
     <link href="index.css" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <script src="https://use.fontawesome.com/313637d50f.js"></script>
 </head>
 
 <body>
-    <main role="main" class="container" aria-live="polite">
-        <header role="banner" class="header">
-            <section>
-                <h1>Forest Ecology Quiz</h1>
-            </section>
-
-            <section class="score-tracker">
-                <ul>
-                    <li class="increment">Question:
-                    <span class="question-number">0</span>/10</li>
-                    <li class="increment">Score:
-                    <span class="current-score">0</span>
-                    </li>
-                </ul>
-            </section>
-
-        </header>
-
-        <section role="region" class="quiz-box">
-            <section class="start-quiz box">
-                 <h2>This quiz will test your knowledge of forests and ecology. Click the start button and prepare to learn something amazing!</h2>
-                <button type="button" class="startButton button">Start</button>
-            </section>
-
-            <section class="question box altBox">
-            </section>
-            <section class="response box altBox"></section>
-            <section class="summary box altBox"></section>
+    <header role="banner" class="header">
+        <section>
+            <h1>Forest Ecology Quiz</h1>
         </section>
-    </main>
+    </header>
+
+        <main role="main" aria-live="polite">
+            <!-- Use JS to dynamically replace everything here -->          
+            <section class="landing-page">
+                <h1>This quiz will test your knowledge of forests and ecology.</h1>
+                <p>Click the start button and prepare to learn something amazing!</p>
+                <button type="button" class="start-button button">Start</button>
+            </section>
+
+        </main>
 
     <!-- JS AND JQUERY HERE -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="index.js"></script>    
+    <script src="index.js"></script>  
+    <script src="STORE.js"></script>    
 </body>
 </html>

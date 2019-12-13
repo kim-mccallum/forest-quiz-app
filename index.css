@@ -9,10 +9,10 @@ body {
     font-family: 'Montserrat', sans-serif;
     color:  #d1d7b1;
     margin:0;
-    background-image: url("images/landscape-photography-of-green-leaf-trees-3.jpg");
+    /* background-image: url("images/landscape-photography-of-green-leaf-trees-3.jpg"); */
+    background-image: url("https://jooinn.com/images1280_/landscape-photography-of-green-leaf-trees-3.jpg");
     background-size: 100%;
 }
-
 
 header {
     color:  #fdedd4;
@@ -34,6 +34,10 @@ main {
   background-color: #6f622b;
 }
 
+h1 {
+  margin-bottom: 1.5em;
+}
+
 li {
   display: inline-block;
   margin: 1em;
@@ -51,7 +55,7 @@ fieldset{
     margin-right: auto;
     margin-top: 2em;
     height: 2em;
-    width: 6em;
+    width: 8em;
     text-transform: uppercase;
     background-color: #ffaf39;
     border: 2px solid #e28800;
@@ -59,4 +63,18 @@ fieldset{
     font-weight: bold;
     font-size: 1.2em;
 }
-  
+
+.fa-check {
+  color: darkgreen;
+  /* This isn't working to increase size */
+  font-size:5em;
+}
+
+.fa-times {
+  color: darkred;
+  font-size: 5em;
+}
+
+.final-score{
+  font-weight: bold;
+}

@@ -8,7 +8,7 @@
 
 //Global variables to store the quiz score and question number information
 let score = 0;
-let questionNumber = 0;
+let questionNumber = 9;
 
 //////////////// Functions //////////////
 
@@ -23,20 +23,12 @@ function generateScoreTrackerHTML() {
     return `<section class="score-tracker">
     <ul>
         <li class="increment">Question:
-        <span class="question-number">${questionNumber}</span>/10</li>
+        <span class="question-number">${questionNumber+1}</span>/${STORE.length}</li>
         <li class="increment">Score:
         <span class="current-score">${score}</span>
         </li>
     </ul>
     </section>`
-}
-
-// Maybe not necessary
-function updateQuizInfo(){
-    // increment the question number
-    // questionNumber = questionNumber++;
-    // increment th score
-    // if the answer was correct, add 1, else do nothing
 }
 
 function generateQuizContainerHTML() {
@@ -97,7 +89,7 @@ function generateFeedback(){
             // Add a point to score
             score = ++score ;
             return `<fieldset>
-                        <legend><i class="fa fa-check"></i><span>Correct!</span></legend>
+                        <legend><i class="fa fa-check"></i><span>  Correct!</span></legend>
 
                         <p>${dispAnswer}</p>
 
@@ -106,7 +98,7 @@ function generateFeedback(){
         }
         else {
             return `<fieldset>
-                        <legend><i class="fa fa-times"></i><span>Sorry, that's incorrect.</span></legend>
+                        <legend><i class="fa fa-times"></i><span>  Sorry, that's incorrect.</span></legend>
 
                         <p>${dispAnswer}</p>
 
@@ -123,7 +115,26 @@ function renderFeedback(){
     ++questionNumber;
 }
 
+// Runs when you get to the end of the list
+function generateSummary(){
+    // Calculate final score
+    let finalScore = (score/STORE.length) * 100;
+    // return HTML with a 'Congrats message' and 'Restart' button
+    return `<fieldset>
+                <legend>Quiz summary:</legend>
+
+                <h1>Congratulations, you have completed the quiz!</h1>
+                <h1 class="final-score">You scored: ${finalScore}%</h1>
+             
+            </fieldset>
+            <button type="submit" class="restart-button button">Restart Quiz</button>` ;
+}
     
+function renderSummary(){
+    // generate HTML with info: correct, detailed answer, source and next button
+    $('.quiz-form').html(generateSummary());
+}
+
 // cycle begins: render current question, get submit input (their answer), grade their answer, render feedback, update score and current question, next click renders next question
     
 // handleStart
@@ -142,7 +153,6 @@ function handleQuizFeedback() {
     // Listen for click on submit with event delegation!
     $('main').on('click', '.submit-button', function(e) {
         e.preventDefault();
-
         renderFeedback()
     });
 }
@@ -152,27 +162,44 @@ function handleNextQuestion() {
     $('main').on('click', '.next-button', function(e) {
         e.preventDefault();
         // Remove feedback HTML
-        // renderScoreTracker()
+        renderScoreTracker()
         // Check question number if not done the continue
-        // renderQuizContainer()
-        // renderCurrentQuestion()        
-    // })
-}
-
-function handleSummary() {
-
-        // Remove feedback HTML
-        // renderScoreTracker()
-        // renderQuizContainer()
-        // renderCurrentQuestion()        
-    // });
+        if (questionNumber<STORE.length){
+            renderQuizContainer()
+            renderCurrentQuestion()  
+        }
+        else {
+            renderQuizContainer()
+            renderSummary();
+        }
+    });
 }
 
 function restartQuiz() {
     // listen for click on restart button
-        //Can I just refresh the page?
+    $('main').on('click', '.restart-button', function(e) {
+        e.preventDefault();
+        // Reset globals
+        questionNumber = 0;
+        score = 0;
+        //Start in the quiz
+        renderScoreTracker()
+        renderQuizContainer()
+        renderCurrentQuestion()
+        //Alternatively, refresh the page?
+    });
 }
     
-handleStart()
-handleQuizFeedback() 
-handleNextQuestion()
+function restartQuizAlt() {
+    // listen for click on restart button
+    $('main').on('click', '.restart-button', function(e) {
+        //Alternatively, refresh the page?
+        location.reload(true);
+    });
+}
+
+handleStart();
+handleQuizFeedback();
+handleNextQuestion();
+restartQuiz(); 
+
