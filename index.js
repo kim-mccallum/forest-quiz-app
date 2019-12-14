@@ -175,8 +175,13 @@ function restartQuiz() {
         questionNumber = 0;
         score = 0;
         //Start in the quiz
-        updateQuizInfo();
+        handleStart();
+        renderScoreTracker()
+        renderQuizContainer()
         renderCurrentQuestion()
+        handleAnswerSubmit();
+        handleNextQuestion();
+        restartQuiz(); 
     });
 }
     
