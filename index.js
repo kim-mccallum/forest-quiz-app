@@ -1,6 +1,6 @@
 //Global variables to store the quiz score and question number information
 let score = 0;
-let questionNumber = 0;
+let questionNumber = 7;
 
 //////////////// Functions //////////////
 
@@ -82,8 +82,7 @@ function processFeedback(selectedOption){
     // grade the answer
     // pull the answer to display as feedback
     let dispAnswer = STORE[questionNumber].displayAnswer;
-    console.log(selectedOption)
-    // debugger;
+
     if (selectedOption === undefined || selectedOption === null) {
         alert("Please select an answer. It's okay to guess!")
         return;  
@@ -112,7 +111,6 @@ function processFeedback(selectedOption){
                         </form>` ;
 
     // update the question number only after next is clicked - this is moved to after they click next, not after they submit answer
-    debugger;
     ++questionNumber;
     updateScoreInfo();
     $('.quiz-container').html(feedbackHTML);
@@ -135,6 +133,7 @@ function generateSummary(){
     
 function renderSummary(){
     // generate HTML with info: correct, detailed answer, source and next button
+    $('.score-tracker').empty();
     $('.quiz-container').html(generateSummary());
 }
 

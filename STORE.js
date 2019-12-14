@@ -2,16 +2,16 @@
 // Question database (array of objects)
 const STORE = [
     //1
-   {question:"What proportion of the world’s land area is covered by forest and what proportion of land-based plan and animal species do forests support?",
+   {question:"What proportion of the world’s land area is covered by forest and what proportion of land-based plants and animal species do forests support?",
     options: ["One third of land cover and over half of land species.","Two thirds of land cover and less than half of land species.","Ten percent of land cover and one quarter of land  species."],
     answer: "One third of land cover and over half of land species.",
     displayAnswer: "Forests cover one-third of the world’s land area and host more than half of the world’s land-based plant and animal species.",
     source: "http://www.fao.org/zhc/detail-events/en/c/1033884/"},
     //2
     {question:"Which of the following statements describes the role of forests in global climate?",
-    options: ["Forests do not play a significant role in the global carbon cycle.","Trees are a carbon sink and the world’s forests remove an estimated 2.1 Gigatonnes of carbon dioxide annually.","Trees are a significant source of greenhouse gas, producing large amounts of carbon dioxide."],
-    answer: "Trees are a carbon sink and the world’s forests remove an estimated 2.1 Gigatonnes of carbon dioxide annually.",
-    displayAnswer: "Trees are a great carbon sink, with the world’s forests removing an estimated 2.1 Gigatonnes of carbon dioxide annually – that’s 2.1 billion tonnes! This plays a fundamental role in balancing the world’s carbon cycle and helping to combat climate change.",
+    options: ["Forests do not play a significant role in the global carbon cycle.","Trees are a carbon sink and the world’s forests remove an estimated 2.1 Gigatons of carbon dioxide annually.","Trees are a significant source of greenhouse gas, producing large amounts of carbon dioxide."],
+    answer: "Trees are a carbon sink and the world’s forests remove an estimated 2.1 Gigatons of carbon dioxide annually.",
+    displayAnswer: "Trees are a great carbon sink, with the world’s forests removing an estimated 2.1 Gigatons of carbon dioxide annually – that’s 2.1 billion tons! This plays a fundamental role in balancing the world’s carbon cycle and helping to combat climate change.",
     source: "http://www.fao.org/zhc/detail-events/en/c/1033884/"},
     //3
    {question:"Which of the following statements describes another important role of forests?",
