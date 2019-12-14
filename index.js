@@ -1,16 +1,15 @@
-//Global variables to store the quiz score and question number information
+//////////////// Global variables //////////////
 let score = 0;
 let questionNumber = 0;
 
 //////////////// Functions //////////////
 
-// render quiz info 
+// question number and score - this remains throughout the quiz
 function renderScoreTracker(){
-    // question number and score - this part never leaves 
     $('main').html(generateScoreTrackerHTML())
 }
     
-// Simply creates the HTML to display the score and question number
+// Creates the HTML to display the score and question number
 function generateScoreTrackerHTML() {
     return `<section class="score-tracker">
     <ul>
@@ -23,22 +22,18 @@ function generateScoreTrackerHTML() {
     </section>`
 }
 
+// render quiz container - this will change: starts with a question, then is swapped with feedback HTML, then is swapped again 
+function renderQuizContainer(){
+    $('main').append(generateQuizContainerHTML())
+}
+
 function generateQuizContainerHTML() {
     return `<section class='quiz-container'>
             </section>`
 }
 
-// render quiz container
-// question form with question and answer options - this will change
-// it will start with a question, then the HTML inside will be swapped with feedback HTML, that will be swapped again 
-function renderQuizContainer(){
-    // question number and score - this part never leaves  
-    $('main').append(generateQuizContainerHTML())
-}
-
-// Get a question from STORE
+// Get a question from STORE and get attributes and create options text
 function generateQuestionHTML() {
-    // Get the question from STORE and get attributes
     let question = STORE[questionNumber].question;
     let options = STORE[questionNumber].options;
 
@@ -77,10 +72,8 @@ function updateScoreInfo() {
     $('.current-score').text(score);
 }
 
-
+// Grades the answer and produces feedback - citation (source link) and additional text (display answer) are produced
 function processFeedback(selectedOption){
-    // grade the answer
-    // pull the answer to display as feedback
     let dispAnswer = STORE[questionNumber].displayAnswer;
     let citation = STORE[questionNumber].source;
 
@@ -88,20 +81,17 @@ function processFeedback(selectedOption){
         alert("Please select an answer. It's okay to guess!")
         return;  
     }
-    // compare answer to correct answer 
+    // Create initial feedback message and icon
     let msg = "Sorry, that's incorrect";
-    //set this to negative
     let icon = `<i class="fa fa-times"></i>`
-    
+    // Compare selected to actual answer, update score, message and icon
     if (selectedOption === STORE[questionNumber].answer){
-         // Add a point to score
         score = ++score ;
         msg = "That's correct!";
-        // update icon to positive
         icon = '<i class="fa fa-check"></i>'
     }
     
-    // render the feedback
+    // create the feedback HTML
     let feedbackHTML = `<form class='next-form'><fieldset>
                             <legend>${icon} ${msg}</legend>
 
@@ -112,52 +102,45 @@ function processFeedback(selectedOption){
                             <button type="submit" class="next-button button">Next</button>
                         </form>` ;
 
-    // update the question number only after next is clicked - this is moved to after they click next, not after they submit answer
+    // Update the question number, score info and render the feedback
     ++questionNumber;
     updateScoreInfo();
     $('.quiz-container').html(feedbackHTML);
 }
 
-// Runs when you get to the end of the list
+// Runs when you get to the end of the question list - Returns HTML with score
 function generateSummary(){
-    // Calculate final score
     let finalScore = (score/STORE.length) * 100;
-    // return HTML with a 'Congrats message' and 'Restart' button
     return `<fieldset>
                 <legend>Quiz summary:</legend>
 
-                <h1>Congratulations, you are done!</h1>
-                <h1 class="final-score">Your score: ${finalScore}%</h1>
+                <h1>You have completed the quiz!</h1>
+                <h1 class="final-score">Score: ${score} out of ${STORE.length} correct (${finalScore}%)</h1>
              
             </fieldset>
             <button type="submit" class="restart-button button">Restart Quiz</button>` ;
 }
-    
+
+// render quiz summary info
 function renderSummary(){
-    // Remove the score tracker
     $('.score-tracker').empty();
-    // Display the results
     $('.quiz-container').html(generateSummary());
 }
 
-// Handle the form submission and grading
+// Handle the form submission and grading - capture selected option and pass it to process feedback
 function handleAnswerSubmit() {
-    // Listen for click on submit with event delegation!
     $('.quiz-container').on('submit', '.quiz-form', function(e) {
         e.preventDefault();
-        // capture the input answer
         const selectedOption = $(e.currentTarget).find("input[name=option]:checked").val();
-        // send that answer to the grading function or next etc.
         processFeedback(selectedOption)
     });
 }
 
+// Handle next button logic
 function handleNextQuestion() {
-    // Listen for click on submit with event delegation!
     $('.quiz-container').on('submit', '.next-form', function(e) {
         e.preventDefault();
         updateQuestionNumber()
-        // Check question number if not done the continue
         if (questionNumber<STORE.length){
             renderCurrentQuestion()  
         }
@@ -174,8 +157,7 @@ function restartQuiz() {
         // Reset globals
         questionNumber = 0;
         score = 0;
-        //Start in the quiz
-        handleStart();
+        // Run all the functions again
         renderScoreTracker()
         renderQuizContainer()
         renderCurrentQuestion()
