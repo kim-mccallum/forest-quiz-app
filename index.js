@@ -39,8 +39,8 @@ function generateQuestionHTML() {
 
     let optionsText = ''
     for (i=0 ; i<options.length; i++){
-        optionsText += `<input type="radio" name="option" value="${options[i]}">
-        <label for="option">${options[i]}</label><br/>`
+        optionsText += `<div class="option"><input type="radio" name="option" value="${options[i]}">
+        <label for="option">${options[i]}</label></div>`
     }
 
     // Return HTML with question and options
@@ -114,7 +114,7 @@ function generateSummary(){
     return `<fieldset>
                 <legend>Quiz summary:</legend>
 
-                <h1>You have completed the quiz!</h1>
+                <h1 class="final-score">You have completed the quiz!</h1>
                 <h1 class="final-score">Score: ${score} out of ${STORE.length} correct (${finalScore}%)</h1>
              
             </fieldset>

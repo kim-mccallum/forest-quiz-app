@@ -6,11 +6,11 @@
   }
 
 html { 
-  background: url(images/background.jpg) no-repeat center center fixed; 
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+    background: url(images/background.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 
 header {
@@ -25,11 +25,9 @@ header {
 
 main {
   text-align: center;
-  width:75%;
-  /* Just playing in here to make things mobile */
+  width:80%;
   display: flex;
   flex-direction: column;
-  /* end */
   margin: auto;
   padding: 1em;
   border: 0.1em solid #35391e;
@@ -39,7 +37,6 @@ main {
 
 p {
   margin:1.2em;
-  size: 2em;
 }
 
 li {
@@ -50,23 +47,46 @@ li {
 }
 
 fieldset{
-  padding: 1.6em;
+  padding: 1.2em;
   text-align: left;
 }
 
 .button {
     margin-left: auto;
     margin-right: auto;
-    margin-top: 2em;
+    margin-top: 1.2em;
+    margin-bottom: 1.2em;
     height: 2em;
     width: 8em;
     text-transform: uppercase;
     background-color: #ffaf39;
     border: 2px solid #e28800;
-    color: #1e2424;
+    
     font-weight: bold;
     font-size: 1.2em;
+    /* Add glow? */
+    transition: all 0.2s ease-in-out;
 }
+
+.button:hover {
+  color: #1e2424;
+  box-shadow: 0 5px 15px #272a1f;
+ }
+
+/* Space between questions */
+.option { 
+  margin-bottom: 1.2em; 
+}
+
+input:hover {
+  color: #ffe9b3;
+  box-shadow: 0 5px 15px #272a1f;
+ }
+
+ .option:hover {
+  color: #ffe9b3;
+  box-shadow: 0 2.5px 10px #272a1f;
+ }
 
 .fa-check {
   color: darkgreen;
@@ -80,9 +100,23 @@ fieldset{
 }
 
 .final-score{
-  font-weight: bold;
+  font-weight: normal;
 }
 
 a {
   color: #1e2424;
+  padding: 1.2em;
+  text-align: left;
+}
+
+@media screen and (min-width: 900px){
+  main {
+    width:50%;
+  }
+  fieldset{
+    padding: 1.6em;
+  }
+  .button {
+    margin-top: 1.6em;
+  }
 }
