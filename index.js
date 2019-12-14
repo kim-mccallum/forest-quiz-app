@@ -126,8 +126,8 @@ function generateSummary(){
     return `<fieldset>
                 <legend>Quiz summary:</legend>
 
-                <h1>Congratulations, you have completed the quiz!</h1>
-                <h1 class="final-score">You scored: ${finalScore}%</h1>
+                <h1>Congratulations, you are done!</h1>
+                <h1 class="final-score">Your score: ${finalScore}%</h1>
              
             </fieldset>
             <button type="submit" class="restart-button button">Restart Quiz</button>` ;
