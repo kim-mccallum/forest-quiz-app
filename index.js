@@ -1,6 +1,6 @@
 //Global variables to store the quiz score and question number information
 let score = 0;
-let questionNumber = 7;
+let questionNumber = 0;
 
 //////////////// Functions //////////////
 
@@ -82,6 +82,7 @@ function processFeedback(selectedOption){
     // grade the answer
     // pull the answer to display as feedback
     let dispAnswer = STORE[questionNumber].displayAnswer;
+    let citation = STORE[questionNumber].source;
 
     if (selectedOption === undefined || selectedOption === null) {
         alert("Please select an answer. It's okay to guess!")
@@ -105,6 +106,7 @@ function processFeedback(selectedOption){
                             <legend>${icon} ${msg}</legend>
 
                             <p>${dispAnswer}</p>
+                            <a href="${citation}" target="_blank">Learn more</a>
 
                         </fieldset>
                             <button type="submit" class="next-button button">Next</button>
@@ -132,13 +134,11 @@ function generateSummary(){
 }
     
 function renderSummary(){
-    // generate HTML with info: correct, detailed answer, source and next button
+    // Remove the score tracker
     $('.score-tracker').empty();
+    // Display the results
     $('.quiz-container').html(generateSummary());
 }
-
-// cycle begins: render current question, get submit input (their answer), grade their answer, render feedback, update score and current question, next click renders next question
-    
 
 // Handle the form submission and grading
 function handleAnswerSubmit() {

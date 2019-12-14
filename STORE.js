@@ -37,7 +37,7 @@ const STORE = [
     answer: "Both are actually true!",
     displayAnswer: "Both are actually true!",
     // This has two sources in a list and maybe that's a problem? 
-    source:["https://e360.yale.edu/features/exploring_how_and_why_trees_talk_to_each_other","https://www.smithsonianmag.com/science-nature/the-whispering-trees-180968084/"]},
+    source:"https://e360.yale.edu/features/exploring_how_and_why_trees_talk_to_each_other"},
     // 7
     {question:"Evaluate the statement: Trees can help control temperatures in cities and reduce pollution.",
     options: ["True","False"],
@@ -55,7 +55,7 @@ const STORE = [
     options: ["Chicago public housing residents with nearby trees and natural landscapes reported 25% fewer acts of domestic aggression and violence.","Trees increase home property values.","Office workers with a view of trees report significantly less stress and more satisfaction.","All of the above."],
     answer: "All of the above.",
     displayAnswer: "These are all real findings!",
-    source: ["http://lhhl.illinois.edu/all.scientific.articles.htm","http://www.rivercenter.uga.edu/publications/pdf/hedonic.pdf","http://www.tandfonline.com/doi/abs/10.1080/02827580701262733#preview"]},
+    source: "http://lhhl.illinois.edu/all.scientific.articles.htm"},
     // 10
     {question:"What is the estimated USD value of medicinal tropical forest plants?",
     options: ["$108 billion a year","$2 million","Tropical forest plants are no longer used for medicinal purposes."],
