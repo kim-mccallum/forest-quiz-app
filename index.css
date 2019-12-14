@@ -83,11 +83,6 @@ input:hover {
   box-shadow: 0 5px 15px #272a1f;
  }
 
- .option:hover {
-  color: #ffe9b3;
-  box-shadow: 0 2.5px 10px #272a1f;
- }
-
 .fa-check {
   color: darkgreen;
   /* This isn't working to increase size */
